@@ -113,6 +113,16 @@ def private():
     current_user = get_jwt_identity()
     return jsonify(logged_in_as=current_user), 200
 
+@app.route('/logout', methods=['POST'])
+@jwt_required()
+def logout():
+    # Access the identity of the current user with get_jwt_identity
+    current_user = get_jwt_identity()
+    
+    # Perform any additional logout actions here, if needed
+    
+    return jsonify({'msg': 'Logout successful'}), 200
+
 @app.route('/<path:path>', methods=['GET'])
 def serve_any_other_file(path):
     if not os.path.isfile(os.path.join(static_file_dir, path)):
