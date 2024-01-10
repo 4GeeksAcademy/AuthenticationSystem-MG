@@ -50,87 +50,95 @@ const getState = ({ getStore, getActions, setStore }) => {
 		  }
 		},
   
-		signup: async (email, password) => {
-		  try {
-			// fetching data from the backend
-			const resp = await fetch(process.env.BACKEND_URL + "/signup", {
-			  method: "POST",
-			  headers: {
-				"Content-Type": "application/json",
-			  },
-			  body: JSON.stringify({
-				email: email,
-				password: password,
-			  }),
-			});
-			const data = await resp.json();
-			setStore({ message: data.msg }); // Assuming the server responds with a 'msg' field
-			// don't forget to return something, that is how the async resolves
-			return data;
-		  } catch (error) {
-			console.log("Error signing up:", error);
-		  }
-		},
-  
-		login: async (email, password) => {
-		  try {
-			// fetching data from the backend
-			const resp = await fetch(process.env.BACKEND_URL + "/login", {
-			  method: "POST",
-			  headers: {
-				"Content-Type": "application/json",
-			  },
-			  body: JSON.stringify({
-				email: email,
-				password: password,
-			  }),
-			});
-			const data = await resp.json();
-  
-			if (!data.token) throw new Error("No token received from server");
-			localStorage.setItem("authToken", data.token);
-			//store.userLoggedIn(true);
-  
-			setStore({ message: data.msg }); // Assuming the server responds with a 'msg' field
-			// don't forget to return something, that is how the async resolves
-			return data;
-		  } catch (error) {
-			console.log("Error logging in:", error);
-		  }
-		},
-  
-		private: async (authToken) => {
-		  try {
-			// fetching data from the backend
-			const resp = await fetch(process.env.BACKEND_URL + "/private", {
-			  method: "GET",
-			  headers: {
-				"Content-Type": "application/json",
-				Authorization: `Bearer ${authToken}`,
-			  },
-			});
-			const data = await resp.json();
-  
-			// don't forget to return something, that is how the async resolves
-			return data;
-		  } catch (error) {
-			console.log("Error getting into the profile:", error);
-		  }
-		},
-  
-		logout: async () => {
-		  try {
-			// Clear the auth token from local storage
-			localStorage.removeItem("authToken");
-  
-			// Additional cleanup or actions if needed
-			// Example: setStore({ userLoggedIn: false });
-  
-			return { msg: "Logout successful" };
-		  } catch (error) {
-			console.log("Error logging out:", error);
-		  }
-		},
+		signup: async (email, username, name, age, password) => {
+			try {
+			  // Check if age is between 18 and 100
+			  if (age < 18 || age > 100) {
+				throw new Error("Age must be between 18 and 100");
+			  }
+	
+			  // fetching data from the backend
+			  const resp = await fetch(process.env.BACKEND_URL + "/signup", {
+				method: "POST",
+				headers: {
+				  "Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+				  email: email,
+				  username:username,
+				  name:name,
+				  age:age,
+				  password: password,
+				}),
+			  });
+			  const data = await resp.json();
+			  setStore({ message: data.msg }); // Assuming the server responds with a 'msg' field
+			  // don't forget to return something, that is how the async resolves
+			  return data;
+			} catch (error) {
+			  console.log("Error signing up:", error);
+			}
+		  },
+	
+		  login: async (email, password) => {
+			try {
+			  // fetching data from the backend
+			  const resp = await fetch(process.env.BACKEND_URL + "/login", {
+				method: "POST",
+				headers: {
+				  "Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+				  email: email,
+				  password: password,
+				}),
+			  });
+			  const data = await resp.json();
+	
+			  if (!data.token) throw new Error("No token received from server");
+			  localStorage.setItem("authToken", data.token);
+			  //store.userLoggedIn(true);
+	
+			  setStore({ message: data.msg }); // Assuming the server responds with a 'msg' field
+			  // don't forget to return something, that is how the async resolves
+			  return data;
+			} catch (error) {
+			  console.log("Error logging in:", error);
+			}
+		  },
+	
+		  private: async (authToken) => {
+			try {
+			  // fetching data from the backend
+			  const resp = await fetch(process.env.BACKEND_URL + "/private", {
+				method: "GET",
+				headers: {
+				  "Content-Type": "application/json",
+				  Authorization: `Bearer ${authToken}`,
+				},
+			  });
+			  const data = await resp.json();
+	
+			  // don't forget to return something, that is how the async resolves
+			  return data;
+			} catch (error) {
+			  console.log("Error getting into the profile:", error);
+			}
+		  },
+	
+		  logout: async () => {
+			try {
+			  // Clear the auth token from local storage
+			  localStorage.removeItem("authToken");
+	
+			  // Additional cleanup or actions if needed
+			  // Example: setStore({ userLoggedIn: false });
+	
+			  return { msg: "Logout successful" };
+			} catch (error) {
+			  console.log("Error logging out:", error);
+			}
+		  },
 	  },
 	};
   };

@@ -4,6 +4,9 @@ import { Context } from "../store/appContext";
 export const Signup = () => {
   const { actions } = useContext(Context);
   const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
+  const [age, setAge] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSignup = async (e) => {
@@ -17,6 +20,9 @@ export const Signup = () => {
 
     // Clear inputs
     setEmail("");
+    setUsername("");
+    setName("");
+    setAge("");
     setPassword("");
   };
 
@@ -25,7 +31,7 @@ export const Signup = () => {
       <form className="container" onSubmit={handleSignup}>
         <div className="form-group">
           <label
-            htmlFor="exampleInputEmail1"
+            htmlFor="signupEmail"
             className="d-flex text-left fs-3 text-white"
           >
             Email address
@@ -33,7 +39,7 @@ export const Signup = () => {
           <input
             type="email"
             className="form-control bg-dark text-white"
-            id="exampleInputEmail1"
+            id="signupEmail"
             aria-describedby="emailHelp"
             placeholder="Enter email"
             value={email} // Set the value of the email input
@@ -43,9 +49,57 @@ export const Signup = () => {
             We'll never share your email with anyone else.
           </small>
         </div>
-        <div className="form-group">
+        <div className="form-group mt-2">
           <label
-            htmlFor="exampleInputPassword1"
+            htmlFor="signupUsername"
+            className="d-flex text-left fs-3 text-white"
+          >
+            Username
+          </label>
+          <input
+            type="text"
+            className="form-control bg-dark text-white"
+            id="signupUsername"
+            placeholder="Enter username"
+            value={username} // Set the value of the email input
+            onChange={(e) => setUsername(e.target.value)} // Update the email state on change
+          />
+        </div>
+        <div className="form-group mt-2">
+          <label
+            htmlFor="signupName"
+            className="d-flex text-left fs-3 text-white"
+          >
+            Name
+          </label>
+          <input
+            type="text"
+            className="form-control bg-dark text-white"
+            id="signupName"
+            placeholder="Enter name"
+            value={name} // Set the value of the email input
+            onChange={(e) => setName(e.target.value)} // Update the email state on change
+          />
+        </div>
+        <div className="form-group mt-2">
+          <label
+            htmlFor="signupAge"
+            className="d-flex text-left fs-3 text-white"
+          >
+            Age
+          </label>
+          <input
+            type="number"
+            className="form-control bg-dark text-white"
+            id="signupAge"
+            placeholder="Enter age"
+            value={age} // Set the value of the email input
+            onChange={(e) => setAge(e.target.value)} // Update the email state on change
+          />
+        </div>
+        <div className="form-group mt-2">
+          <label
+            htmlFor="signupPassword"
             className="d-flex text-left fs-3 text-white"
           >
             Password
@@ -53,7 +107,7 @@ export const Signup = () => {
           <input
             type="password"
             className="form-control bg-dark text-white"
-            id="exampleInputPassword1"
+            id="signupPassword"
             placeholder="Password"
             value={password} // Set the value of the password input
             onChange={(e) => setPassword(e.target.value)} // Update the password state on change

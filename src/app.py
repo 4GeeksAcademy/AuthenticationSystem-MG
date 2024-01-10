@@ -79,10 +79,19 @@ def signup():
         return jsonify({'msg':'Se debe ingresar email'}),400
     if 'password' not in body:
         return jsonify({'msg':'Se debe ingresar password'}),400
+    if 'username' not in body:
+        return jsonify({'msg': 'No se ha proporcionado username'}), 400
+    if 'name' not in body:
+        return jsonify({'msg':'Se debe ingresar password'}),400
+    if 'age' not in body:
+        return jsonify({'msg': 'No se ha proporcionado age'}), 400
     
     pw_hash = bcrypt.generate_password_hash(body['password']).decode('utf-8')
     
     new_user = User()
+    new_user.username = body["username"]
+    new_user.name = body["name"]
+    new_user.age = body["age"]
     new_user.email = body["email"]
     new_user.password = pw_hash
     new_user.is_active = True
